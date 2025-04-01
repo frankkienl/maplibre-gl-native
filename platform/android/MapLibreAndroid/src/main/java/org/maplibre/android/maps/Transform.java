@@ -26,7 +26,7 @@ import static org.maplibre.android.maps.MapLibreMap.OnCameraMoveStartedListener;
  * Responsible for synchronising {@link CameraPosition} state and notifying camera change listeners.
  * </p>
  */
-public final class Transform implements MapView.OnCameraDidChangeListener {
+public class Transform implements MapView.OnCameraDidChangeListener {
 
   private static final String TAG = "Mbgl-Transform";
 
@@ -50,7 +50,7 @@ public final class Transform implements MapView.OnCameraDidChangeListener {
     }
   };
 
-  Transform(MapView mapView, NativeMap nativeMap, CameraChangeDispatcher cameraChangeDispatcher) {
+  public Transform(MapView mapView, NativeMap nativeMap, CameraChangeDispatcher cameraChangeDispatcher) {
     this.mapView = mapView;
     this.nativeMap = nativeMap;
     this.cameraChangeDispatcher = cameraChangeDispatcher;
@@ -170,14 +170,13 @@ public final class Transform implements MapView.OnCameraDidChangeListener {
       callback.onFinish();
     }
   }
-
-  private boolean isValidCameraPosition(@Nullable CameraPosition cameraPosition) {
+  public boolean isValidCameraPosition(@Nullable CameraPosition cameraPosition) {
     return cameraPosition != null && !cameraPosition.equals(this.cameraPosition);
   }
 
   @UiThread
   @Nullable
-  CameraPosition invalidateCameraPosition() {
+  public CameraPosition invalidateCameraPosition() {
     if (nativeMap != null) {
       CameraPosition cameraPosition = nativeMap.getCameraPosition();
       if (this.cameraPosition != null && !this.cameraPosition.equals(cameraPosition)) {
@@ -189,7 +188,7 @@ public final class Transform implements MapView.OnCameraDidChangeListener {
     return cameraPosition;
   }
 
-  void cancelTransitions() {
+  public void cancelTransitions() {
     // notify user about cancel
     cameraChangeDispatcher.onCameraMoveCanceled();
 
@@ -227,20 +226,20 @@ public final class Transform implements MapView.OnCameraDidChangeListener {
 
   // Zoom in or out
 
-  double getRawZoom() {
+  public double getRawZoom() {
     return nativeMap.getZoom();
   }
 
-  void zoomBy(double zoomAddition, @NonNull PointF focalPoint) {
+  public void zoomBy(double zoomAddition, @NonNull PointF focalPoint) {
     setZoom(nativeMap.getZoom() + zoomAddition, focalPoint);
   }
 
-  void setZoom(double zoom, @NonNull PointF focalPoint) {
+  public void setZoom(double zoom, @NonNull PointF focalPoint) {
     nativeMap.setZoom(zoom, focalPoint, 0);
   }
 
   // Direction
-  double getBearing() {
+  public double getBearing() {
     double direction = -nativeMap.getBearing();
 
     while (direction > 360) {
@@ -253,19 +252,19 @@ public final class Transform implements MapView.OnCameraDidChangeListener {
     return direction;
   }
 
-  double getRawBearing() {
+  public double getRawBearing() {
     return nativeMap.getBearing();
   }
 
-  void setBearing(double bearing) {
+  public void setBearing(double bearing) {
     nativeMap.setBearing(bearing, 0);
   }
 
-  void setBearing(double bearing, float focalX, float focalY) {
+  public void setBearing(double bearing, float focalX, float focalY) {
     nativeMap.setBearing(bearing, focalX, focalY, 0);
   }
 
-  void setBearing(double bearing, float focalX, float focalY, long duration) {
+  public void setBearing(double bearing, float focalX, float focalY, long duration) {
     nativeMap.setBearing(bearing, focalX, focalY, duration);
   }
 
@@ -274,7 +273,7 @@ public final class Transform implements MapView.OnCameraDidChangeListener {
   // LatLng / CenterCoordinate
   //
 
-  LatLng getLatLng() {
+  public LatLng getLatLng() {
     return nativeMap.getLatLng();
   }
 
@@ -282,11 +281,11 @@ public final class Transform implements MapView.OnCameraDidChangeListener {
   // Pitch / Tilt
   //
 
-  double getTilt() {
+  public double getTilt() {
     return nativeMap.getPitch();
   }
 
-  void setTilt(Double pitch) {
+  public void setTilt(Double pitch) {
     nativeMap.setPitch(pitch, 0);
   }
 
@@ -294,7 +293,7 @@ public final class Transform implements MapView.OnCameraDidChangeListener {
   // Center coordinate
   //
 
-  LatLng getCenterCoordinate() {
+  public LatLng getCenterCoordinate() {
     return nativeMap.getLatLng();
   }
 
@@ -302,14 +301,14 @@ public final class Transform implements MapView.OnCameraDidChangeListener {
     nativeMap.setLatLng(centerCoordinate, 0);
   }
 
-  void setGestureInProgress(boolean gestureInProgress) {
+  public void setGestureInProgress(boolean gestureInProgress) {
     nativeMap.setGestureInProgress(gestureInProgress);
     if (!gestureInProgress) {
       invalidateCameraPosition();
     }
   }
 
-  void moveBy(double offsetX, double offsetY, long duration) {
+  public void moveBy(double offsetX, double offsetY, long duration) {
     if (duration > 0) {
       mapView.addOnCameraDidChangeListener(moveByChangeListener);
     }
@@ -320,7 +319,7 @@ public final class Transform implements MapView.OnCameraDidChangeListener {
   // Min & Max ZoomLevel
   //
 
-  void setMinZoom(double minZoom) {
+  public void setMinZoom(double minZoom) {
     if ((minZoom < MapLibreConstants.MINIMUM_ZOOM) || (minZoom > MapLibreConstants.MAXIMUM_ZOOM)) {
       Logger.e(TAG, String.format("Not setting minZoomPreference, value is in unsupported range: %s", minZoom));
       return;
@@ -328,11 +327,11 @@ public final class Transform implements MapView.OnCameraDidChangeListener {
     nativeMap.setMinZoom(minZoom);
   }
 
-  double getMinZoom() {
+  public double getMinZoom() {
     return nativeMap.getMinZoom();
   }
 
-  void setMaxZoom(double maxZoom) {
+  public void setMaxZoom(double maxZoom) {
     if ((maxZoom < MapLibreConstants.MINIMUM_ZOOM) || (maxZoom > MapLibreConstants.MAXIMUM_ZOOM)) {
       Logger.e(TAG, String.format("Not setting maxZoomPreference, value is in unsupported range: %s", maxZoom));
       return;
@@ -340,11 +339,11 @@ public final class Transform implements MapView.OnCameraDidChangeListener {
     nativeMap.setMaxZoom(maxZoom);
   }
 
-  double getMaxZoom() {
+  public double getMaxZoom() {
     return nativeMap.getMaxZoom();
   }
 
-  void setMinPitch(double minPitch) {
+  public void setMinPitch(double minPitch) {
     if ((minPitch < MapLibreConstants.MINIMUM_PITCH) || (minPitch > MapLibreConstants.MAXIMUM_PITCH)) {
       Logger.e(TAG, String.format("Not setting minPitchPreference, value is in unsupported range: %s", minPitch));
       return;
@@ -352,11 +351,11 @@ public final class Transform implements MapView.OnCameraDidChangeListener {
     nativeMap.setMinPitch(minPitch);
   }
 
-  double getMinPitch() {
+  public double getMinPitch() {
     return nativeMap.getMinPitch();
   }
 
-  void setMaxPitch(double maxPitch) {
+  public void setMaxPitch(double maxPitch) {
     if ((maxPitch < MapLibreConstants.MINIMUM_PITCH) || (maxPitch > MapLibreConstants.MAXIMUM_PITCH)) {
       Logger.e(TAG, String.format("Not setting maxPitchPreference, value is in unsupported range: %s", maxPitch));
       return;
@@ -364,7 +363,7 @@ public final class Transform implements MapView.OnCameraDidChangeListener {
     nativeMap.setMaxPitch(maxPitch);
   }
 
-  double getMaxPitch() {
+  public double getMaxPitch() {
     return nativeMap.getMaxPitch();
   }
 }

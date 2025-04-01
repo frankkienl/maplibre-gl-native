@@ -27,12 +27,12 @@ public class Projection {
   @NonNull
   private final MapView mapView;
 
-  Projection(@NonNull NativeMap nativeMapView, @NonNull MapView mapView) {
+  public Projection(@NonNull NativeMap nativeMapView, @NonNull MapView mapView) {
     this.nativeMapView = nativeMapView;
     this.mapView = mapView;
   }
 
-  void setContentPadding(int[] contentPadding) {
+  public void setContentPadding(int[] contentPadding) {
     double[] output = new double[contentPadding.length];
     for (int i = 0; i < contentPadding.length; i++) {
       output[i] = contentPadding[i];
@@ -40,7 +40,7 @@ public class Projection {
     nativeMapView.setContentPadding(output);
   }
 
-  int[] getContentPadding() {
+  public int[] getContentPadding() {
     double[] padding = nativeMapView.getCameraPosition().padding;
     return new int[] {(int) padding[0], (int) padding[1], (int) padding[2], (int) padding[3]};
   }
@@ -225,7 +225,7 @@ public class Projection {
    * @return bearing in decimal degrees
    * @see <a href="http://turfjs.org/docs/#bearing">Turf Bearing documentation</a>
    */
-  static double bearing(@NonNull LatLng latLng1, @NonNull LatLng latLng2) {
+  public static double bearing(@NonNull LatLng latLng1, @NonNull LatLng latLng2) {
 
     double lon1 = degreesToRadians(latLng1.getLongitude());
     double lon2 = degreesToRadians(latLng2.getLongitude());
@@ -245,7 +245,7 @@ public class Projection {
    * @param degrees angle between 0 and 360 degrees
    * @return angle in radians
    */
-  static double degreesToRadians(double degrees) {
+  public static double degreesToRadians(double degrees) {
     double radians = degrees % 360;
     return radians * Math.PI / 180;
   }
@@ -256,7 +256,7 @@ public class Projection {
    * @param radians angle in radians
    * @return degrees between 0 and 360 degrees
    */
-  static double radiansToDegrees(double radians) {
+  public static double radiansToDegrees(double radians) {
     double degrees = radians % (2 * Math.PI);
     return degrees * 180 / Math.PI;
   }
@@ -267,7 +267,7 @@ public class Projection {
    *
    * @return Span distance
    */
-  static double getLongitudeSpan(double east, double west) {
+  public static double getLongitudeSpan(double east, double west) {
     double longSpan = Math.abs(east - west);
     if (east > west) {
       return longSpan;
@@ -302,11 +302,11 @@ public class Projection {
     nativeMapView.pixelsForLatLngs(input, output);
   }
 
-  float getHeight() {
+  public float getHeight() {
     return mapView.getHeight();
   }
 
-  float getWidth() {
+  public float getWidth() {
     return mapView.getWidth();
   }
 

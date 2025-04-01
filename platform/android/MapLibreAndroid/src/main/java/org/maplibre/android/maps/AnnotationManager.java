@@ -35,7 +35,7 @@ import java.util.List;
  * com.mapbox.mapboxsdk.annotations.
  * </p>
  */
-class AnnotationManager {
+public class AnnotationManager {
 
   private static final String TAG = "Mbgl-AnnotationManager";
 
@@ -62,7 +62,7 @@ class AnnotationManager {
   private Polygons polygons;
   private Polylines polylines;
 
-  AnnotationManager(@NonNull MapView mapView, LongSparseArray<Annotation> annotationsArray,
+  public AnnotationManager(@NonNull MapView mapView, LongSparseArray<Annotation> annotationsArray,
                     IconManager iconManager, Annotations annotations, Markers markers, Polygons polygons,
                     Polylines polylines, ShapeAnnotations shapeAnnotations) {
     this.mapView = mapView;
@@ -83,7 +83,7 @@ class AnnotationManager {
     return this;
   }
 
-  void update() {
+  public void update() {
     infoWindowManager.update();
   }
 
@@ -91,19 +91,19 @@ class AnnotationManager {
   // Annotations
   //
 
-  Annotation getAnnotation(long id) {
+  public Annotation getAnnotation(long id) {
     return annotations.obtainBy(id);
   }
 
-  List<Annotation> getAnnotations() {
+  public List<Annotation> getAnnotations() {
     return annotations.obtainAll();
   }
 
-  void removeAnnotation(long id) {
+  public void removeAnnotation(long id) {
     annotations.removeBy(id);
   }
 
-  void removeAnnotation(@NonNull Annotation annotation) {
+  public void removeAnnotation(@NonNull Annotation annotation) {
     if (annotation instanceof Marker) {
       Marker marker = (Marker) annotation;
       marker.hideInfoWindow();
@@ -116,7 +116,7 @@ class AnnotationManager {
     annotations.removeBy(annotation);
   }
 
-  void removeAnnotations(@NonNull List<? extends Annotation> annotationList) {
+  public void removeAnnotations(@NonNull List<? extends Annotation> annotationList) {
     for (Annotation annotation : annotationList) {
       if (annotation instanceof Marker) {
         Marker marker = (Marker) annotation;
@@ -130,7 +130,7 @@ class AnnotationManager {
     annotations.removeBy(annotationList);
   }
 
-  void removeAnnotations() {
+  public  void removeAnnotations() {
     Annotation annotation;
     int count = annotationsArray.size();
     long[] ids = new long[count];
@@ -151,16 +151,16 @@ class AnnotationManager {
   // Markers
   //
 
-  Marker addMarker(@NonNull BaseMarkerOptions markerOptions, @NonNull MapLibreMap maplibreMap) {
+  public Marker addMarker(@NonNull BaseMarkerOptions markerOptions, @NonNull MapLibreMap maplibreMap) {
     return markers.addBy(markerOptions, maplibreMap);
   }
 
-  List<Marker> addMarkers(@NonNull List<? extends BaseMarkerOptions> markerOptionsList,
+  public List<Marker> addMarkers(@NonNull List<? extends BaseMarkerOptions> markerOptionsList,
                           @NonNull MapLibreMap maplibreMap) {
     return markers.addBy(markerOptionsList, maplibreMap);
   }
 
-  void updateMarker(@NonNull Marker updatedMarker, @NonNull MapLibreMap maplibreMap) {
+  public void updateMarker(@NonNull Marker updatedMarker, @NonNull MapLibreMap maplibreMap) {
     if (!isAddedToMap(updatedMarker)) {
       logNonAdded(updatedMarker);
       return;
@@ -168,16 +168,16 @@ class AnnotationManager {
     markers.update(updatedMarker, maplibreMap);
   }
 
-  List<Marker> getMarkers() {
+  public List<Marker> getMarkers() {
     return markers.obtainAll();
   }
 
   @NonNull
-  List<Marker> getMarkersInRect(@NonNull RectF rectangle) {
+  public List<Marker> getMarkersInRect(@NonNull RectF rectangle) {
     return markers.obtainAllIn(rectangle);
   }
 
-  void reloadMarkers() {
+  public void reloadMarkers() {
     markers.reload();
   }
 
@@ -185,15 +185,15 @@ class AnnotationManager {
   // Polygons
   //
 
-  Polygon addPolygon(@NonNull PolygonOptions polygonOptions, @NonNull MapLibreMap maplibreMap) {
+  public Polygon addPolygon(@NonNull PolygonOptions polygonOptions, @NonNull MapLibreMap maplibreMap) {
     return polygons.addBy(polygonOptions, maplibreMap);
   }
 
-  List<Polygon> addPolygons(@NonNull List<PolygonOptions> polygonOptionsList, @NonNull MapLibreMap maplibreMap) {
+  public List<Polygon> addPolygons(@NonNull List<PolygonOptions> polygonOptionsList, @NonNull MapLibreMap maplibreMap) {
     return polygons.addBy(polygonOptionsList, maplibreMap);
   }
 
-  void updatePolygon(@NonNull Polygon polygon) {
+  public void updatePolygon(@NonNull Polygon polygon) {
     if (!isAddedToMap(polygon)) {
       logNonAdded(polygon);
       return;
@@ -201,7 +201,7 @@ class AnnotationManager {
     polygons.update(polygon);
   }
 
-  List<Polygon> getPolygons() {
+  public List<Polygon> getPolygons() {
     return polygons.obtainAll();
   }
 
@@ -209,15 +209,15 @@ class AnnotationManager {
   // Polylines
   //
 
-  Polyline addPolyline(@NonNull PolylineOptions polylineOptions, @NonNull MapLibreMap maplibreMap) {
+  public Polyline addPolyline(@NonNull PolylineOptions polylineOptions, @NonNull MapLibreMap maplibreMap) {
     return polylines.addBy(polylineOptions, maplibreMap);
   }
 
-  List<Polyline> addPolylines(@NonNull List<PolylineOptions> polylineOptionsList, @NonNull MapLibreMap maplibreMap) {
+  public List<Polyline> addPolylines(@NonNull List<PolylineOptions> polylineOptionsList, @NonNull MapLibreMap maplibreMap) {
     return polylines.addBy(polylineOptionsList, maplibreMap);
   }
 
-  void updatePolyline(@NonNull Polyline polyline) {
+  public void updatePolyline(@NonNull Polyline polyline) {
     if (!isAddedToMap(polyline)) {
       logNonAdded(polyline);
       return;
@@ -225,24 +225,24 @@ class AnnotationManager {
     polylines.update(polyline);
   }
 
-  List<Polyline> getPolylines() {
+  public List<Polyline> getPolylines() {
     return polylines.obtainAll();
   }
 
   // TODO Refactor from here still in progress
-  void setOnMarkerClickListener(@Nullable MapLibreMap.OnMarkerClickListener listener) {
+  public void setOnMarkerClickListener(@Nullable MapLibreMap.OnMarkerClickListener listener) {
     onMarkerClickListener = listener;
   }
 
-  void setOnPolygonClickListener(@Nullable MapLibreMap.OnPolygonClickListener listener) {
+  public void setOnPolygonClickListener(@Nullable MapLibreMap.OnPolygonClickListener listener) {
     onPolygonClickListener = listener;
   }
 
-  void setOnPolylineClickListener(@Nullable MapLibreMap.OnPolylineClickListener listener) {
+  public void setOnPolylineClickListener(@Nullable MapLibreMap.OnPolylineClickListener listener) {
     onPolylineClickListener = listener;
   }
 
-  void selectMarker(@NonNull Marker marker) {
+  public void selectMarker(@NonNull Marker marker) {
     if (selectedMarkers.contains(marker)) {
       return;
     }
@@ -260,7 +260,7 @@ class AnnotationManager {
     selectedMarkers.add(marker);
   }
 
-  void deselectMarkers() {
+  public void deselectMarkers() {
     if (selectedMarkers.isEmpty()) {
       return;
     }
@@ -277,7 +277,7 @@ class AnnotationManager {
     selectedMarkers.clear();
   }
 
-  void deselectMarker(@NonNull Marker marker) {
+  public void deselectMarker(@NonNull Marker marker) {
     if (!selectedMarkers.contains(marker)) {
       return;
     }
@@ -289,16 +289,16 @@ class AnnotationManager {
   }
 
   @NonNull
-  List<Marker> getSelectedMarkers() {
+  public List<Marker> getSelectedMarkers() {
     return selectedMarkers;
   }
 
   @NonNull
-  InfoWindowManager getInfoWindowManager() {
+  public InfoWindowManager getInfoWindowManager() {
     return infoWindowManager;
   }
 
-  void adjustTopOffsetPixels(@NonNull MapLibreMap maplibreMap) {
+  public void adjustTopOffsetPixels(@NonNull MapLibreMap maplibreMap) {
     int count = annotationsArray.size();
     for (int i = 0; i < count; i++) {
       Annotation annotation = annotationsArray.get(i);
@@ -317,11 +317,11 @@ class AnnotationManager {
     }
   }
 
-  private boolean isAddedToMap(@Nullable Annotation annotation) {
+  public  boolean isAddedToMap(@Nullable Annotation annotation) {
     return annotation != null && annotation.getId() != -1 && annotationsArray.indexOfKey(annotation.getId()) > -1;
   }
 
-  private void logNonAdded(@NonNull Annotation annotation) {
+  public  void logNonAdded(@NonNull Annotation annotation) {
     Logger.w(TAG, String.format(
       "Attempting to update non-added %s with value %s", annotation.getClass().getCanonicalName(), annotation)
     );
@@ -331,7 +331,7 @@ class AnnotationManager {
   // Click event
   //
 
-  boolean onTap(@NonNull PointF tapPoint) {
+  public boolean onTap(@NonNull PointF tapPoint) {
     MarkerHit markerHit = getMarkerHitFromTouchArea(tapPoint);
     long markerId = new MarkerHitResolver(maplibreMap).execute(markerHit);
     if (markerId != NO_ANNOTATION_ID) {
@@ -345,7 +345,7 @@ class AnnotationManager {
     return annotation != null && handleClickForShapeAnnotation(annotation);
   }
 
-  private ShapeAnnotationHit getShapeAnnotationHitFromTap(PointF tapPoint) {
+  public  ShapeAnnotationHit getShapeAnnotationHitFromTap(PointF tapPoint) {
     float touchTargetSide = MapLibre.getApplicationContext().getResources().getDimension(R.dimen.maplibre_eight_dp);
     RectF tapRect = new RectF(
       tapPoint.x - touchTargetSide,
@@ -356,7 +356,7 @@ class AnnotationManager {
     return new ShapeAnnotationHit(tapRect);
   }
 
-  private boolean handleClickForShapeAnnotation(Annotation annotation) {
+  public  boolean handleClickForShapeAnnotation(Annotation annotation) {
     if (annotation instanceof Polygon && onPolygonClickListener != null) {
       onPolygonClickListener.onPolygonClick((Polygon) annotation);
       return true;
@@ -367,7 +367,7 @@ class AnnotationManager {
     return false;
   }
 
-  private MarkerHit getMarkerHitFromTouchArea(PointF tapPoint) {
+  public  MarkerHit getMarkerHitFromTouchArea(PointF tapPoint) {
     int touchSurfaceWidth = (int) (iconManager.getHighestIconHeight() * 1.5);
     int touchSurfaceHeight = (int) (iconManager.getHighestIconWidth() * 1.5);
     final RectF tapRect = new RectF(tapPoint.x - touchSurfaceWidth,
@@ -378,7 +378,7 @@ class AnnotationManager {
     return new MarkerHit(tapRect, getMarkersInRect(tapRect));
   }
 
-  private boolean isClickHandledForMarker(long markerId) {
+  public  boolean isClickHandledForMarker(long markerId) {
     Marker marker = (Marker) getAnnotation(markerId);
     boolean handledDefaultClick = onClickMarker(marker);
     if (!handledDefaultClick) {
@@ -387,11 +387,11 @@ class AnnotationManager {
     return true;
   }
 
-  private boolean onClickMarker(@NonNull Marker marker) {
+  public  boolean onClickMarker(@NonNull Marker marker) {
     return onMarkerClickListener != null && onMarkerClickListener.onMarkerClick(marker);
   }
 
-  private void toggleMarkerSelectionState(@NonNull Marker marker) {
+  public  void toggleMarkerSelectionState(@NonNull Marker marker) {
     if (!selectedMarkers.contains(marker)) {
       selectMarker(marker);
     } else {
@@ -399,7 +399,7 @@ class AnnotationManager {
     }
   }
 
-  private static class ShapeAnnotationHitResolver {
+  public  static class ShapeAnnotationHitResolver {
 
     private ShapeAnnotations shapeAnnotations;
 
@@ -418,7 +418,7 @@ class AnnotationManager {
     }
   }
 
-  private static class MarkerHitResolver {
+  public  static class MarkerHitResolver {
 
     @NonNull
     private final Projection projection;
@@ -451,13 +451,13 @@ class AnnotationManager {
       return closestMarkerId;
     }
 
-    private void resolveForMarkers(MarkerHit markerHit) {
+    public  void resolveForMarkers(MarkerHit markerHit) {
       for (Marker marker : markerHit.markers) {
         resolveForMarker(markerHit, marker);
       }
     }
 
-    private void resolveForMarker(@NonNull MarkerHit markerHit, Marker marker) {
+    public  void resolveForMarker(@NonNull MarkerHit markerHit, Marker marker) {
       markerLocation = projection.toScreenLocation(marker.getPosition());
       bitmap = marker.getIcon().getBitmap();
 
@@ -479,7 +479,7 @@ class AnnotationManager {
       hitTestMarker(markerHit, marker, hitRectMarker);
     }
 
-    private void hitTestMarker(MarkerHit markerHit, @NonNull Marker marker, RectF hitRectMarker) {
+    public  void hitTestMarker(MarkerHit markerHit, @NonNull Marker marker, RectF hitRectMarker) {
       if (hitRectMarker.contains(markerHit.getTapPointX(), markerHit.getTapPointY())) {
         hitRectMarker.intersect(markerHit.tapRect);
         if (isRectangleHighestSurfaceIntersection(hitRectMarker)) {
@@ -489,33 +489,33 @@ class AnnotationManager {
       }
     }
 
-    private boolean isRectangleHighestSurfaceIntersection(RectF rectF) {
+    public  boolean isRectangleHighestSurfaceIntersection(RectF rectF) {
       return rectF.width() * rectF.height() > highestSurfaceIntersection.width() * highestSurfaceIntersection.height();
     }
   }
 
-  private static class ShapeAnnotationHit {
-    private final RectF tapPoint;
+  public  static class ShapeAnnotationHit {
+    public  final RectF tapPoint;
 
-    ShapeAnnotationHit(RectF tapPoint) {
+    public ShapeAnnotationHit(RectF tapPoint) {
       this.tapPoint = tapPoint;
     }
   }
 
-  private static class MarkerHit {
+  public  static class MarkerHit {
     private final RectF tapRect;
     private final List<Marker> markers;
 
-    MarkerHit(RectF tapRect, List<Marker> markers) {
+    public MarkerHit(RectF tapRect, List<Marker> markers) {
       this.tapRect = tapRect;
       this.markers = markers;
     }
 
-    float getTapPointX() {
+    public float getTapPointX() {
       return tapRect.centerX();
     }
 
-    float getTapPointY() {
+    public float getTapPointY() {
       return tapRect.centerY();
     }
   }

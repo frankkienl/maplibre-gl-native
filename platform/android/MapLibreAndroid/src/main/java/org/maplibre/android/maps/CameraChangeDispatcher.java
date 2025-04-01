@@ -19,7 +19,7 @@ import static java.lang.annotation.RetentionPolicy.SOURCE;
 /**
  * Class responsible for dispatching camera change events to registered listeners.
  */
-class CameraChangeDispatcher implements MapLibreMap.OnCameraMoveStartedListener, MapLibreMap.OnCameraMoveListener,
+public class CameraChangeDispatcher implements MapLibreMap.OnCameraMoveStartedListener, MapLibreMap.OnCameraMoveListener,
   MapLibreMap.OnCameraMoveCanceledListener, OnCameraIdleListener {
 
   private final CameraChangeHandler handler = new CameraChangeHandler(this);

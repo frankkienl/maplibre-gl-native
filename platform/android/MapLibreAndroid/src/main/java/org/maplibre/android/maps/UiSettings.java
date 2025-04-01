@@ -1217,7 +1217,7 @@ public final class UiSettings {
     return projection.getWidth();
   }
 
-  float getPixelRatio() {
+  public float getPixelRatio() {
     return pixelRatio;
   }
 
